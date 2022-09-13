@@ -5,6 +5,7 @@ MeleeWeapon <|-- Weapon_Baseballbat
 Weapon <|-- RangedWeapon
 Weapon <|-- MeleeWeapon
 Weapon <|-- Throwables
+IEquipable <|- Weapon
 
 interface IEquipable
 {
@@ -12,10 +13,11 @@ interface IEquipable
  void Unequip()
 }
 
-abstract class Weapon 
+abstract class Weapon
 {
-public float damage
-public float range
+public WeaponStats weaponStats
+
+public Sprite uiSprite
 
 protected abstract void Use()
 protected abstract void UseContinuously()
@@ -25,11 +27,9 @@ protected abstract void UseContinuously()
 class RangedWeapon
 {
 
-public float rateOfFire
-public float accuracy
+List<AttachableToWeapon> weaponAttachments
 
-int ammoAmount
-int magazineSize
+
 }
 
 class MeleeWeapon
@@ -57,5 +57,24 @@ class Weapon_Grenade
 class Weapon_Baseballbat
 {
 
+}
+
+class AttachableToWeapon
+{
+WeaponStats modifyingStats
+
+public WeaponStats CalculateModifiedWeaponStats(WeaponStats _originalStats)
+}
+
+struct WeaponStats
+{
+public float damage
+public float range
+public float rateOfFire
+public float accuracy
+
+int ammoAmount
+int magazineSize
+int currentMagazine
 }
 @enduml
