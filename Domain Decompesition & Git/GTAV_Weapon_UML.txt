@@ -16,6 +16,7 @@ interface IEquipable
 abstract class Weapon
 {
 public WeaponStats weaponStats
+public Material skin
 
 public Sprite uiSprite
 
@@ -26,10 +27,11 @@ protected abstract void UseContinuously()
 
 class RangedWeapon
 {
+List<AttachableToWeapon> weaponAttachment
 
-List<AttachableToWeapon> weaponAttachments
 
-
+public void AddAmmo(int amount)
+protected void ApplyAttachmentStats()
 }
 
 class MeleeWeapon
