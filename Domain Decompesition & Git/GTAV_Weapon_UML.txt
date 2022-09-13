@@ -1,0 +1,61 @@
+@startuml
+RangedWeapon <|-- Weapon_SMG
+Throwables <|-- Weapon_Grenade
+MeleeWeapon <|-- Weapon_Baseballbat
+Weapon <|-- RangedWeapon
+Weapon <|-- MeleeWeapon
+Weapon <|-- Throwables
+
+interface IEquipable
+{
+ void Equip()
+ void Unequip()
+}
+
+abstract class Weapon 
+{
+public float damage
+public float range
+
+protected abstract void Use()
+protected abstract void UseContinuously()
+
+}
+
+class RangedWeapon
+{
+
+public float rateOfFire
+public float accuracy
+
+int ammoAmount
+int magazineSize
+}
+
+class MeleeWeapon
+{
+
+}
+
+class Throwables
+{
+private float throwRange
+}
+
+
+class Weapon_SMG
+{
+
+}
+
+class Weapon_Grenade
+{
+
+}
+
+
+class Weapon_Baseballbat
+{
+
+}
+@enduml
