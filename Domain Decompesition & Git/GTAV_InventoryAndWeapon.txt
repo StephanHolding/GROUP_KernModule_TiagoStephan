@@ -17,6 +17,12 @@ Interface IIsPickupAble
   Private void AddToAmount()
 }
 
+interface IEquipable
+{
+ void Equip()
+ void Unequip()
+}
+
 Class Consumable
 {
   Public int amount
@@ -62,11 +68,6 @@ Class UI
   
 }
 
-interface IEquipable
-{
- void Equip()
- void Unequip()
-}
 
 abstract class Weapon
 {
