@@ -79,4 +79,10 @@ int ammoAmount
 int magazineSize
 int currentMagazine
 }
+
+class PickupableWeapon
+{
+ private void AddWeaponToInventory<T>(T weaponToAdd)
+}
+
 @enduml
