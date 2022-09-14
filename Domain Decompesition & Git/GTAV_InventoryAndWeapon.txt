@@ -17,6 +17,12 @@ Interface IIsPickupAble
   Private void AddToAmount()
 }
 
+interface IEquipable
+{
+ void Equip()
+ void Unequip()
+}
+
 Class Consumable
 {
   Public int amount
@@ -24,8 +30,12 @@ Class Consumable
 
 Class Inventory
 {
-  List<Weapon> allWeaponsInInventory
+  Dictionairy<T, Weapon> allWeaponsInInventory
   List<Consumables> allConsumablesInInventory
+
+  bool hasWeapon
+
+  private void AddToInventory()
 } 
 
 Class Armor
@@ -59,11 +69,6 @@ Class UI
   
 }
 
-interface IEquipable
-{
- void Equip()
- void Unequip()
-}
 
 abstract class Weapon
 {
