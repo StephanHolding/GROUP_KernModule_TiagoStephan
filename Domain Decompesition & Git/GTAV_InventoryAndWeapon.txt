@@ -24,8 +24,11 @@ Class Consumable
 
 Class Inventory
 {
-  List<Weapon> allWeaponsInInventory
+  Dictionary<T, Weapon> allWeaponsInInventory
   List<Consumables> allConsumablesInInventory
+
+  bool HasWeapon<T>(T _weaponType)
+  void AddAmmoToWeapon(T _weaponType, int ammoAmount)
 } 
 
 Class Armor
@@ -79,7 +82,7 @@ protected abstract void UseContinuously()
 
 class RangedWeapon
 {
-List<AttachableToWeapon> weaponAttachment
+List<AttachableToWeapon> weaponAttachments
 
 
 public void AddAmmo(int amount)
@@ -135,4 +138,5 @@ int currentMagazine
 class PickupableWeapon
 {
  private void AddWeaponToInventory<T>(T weaponToAdd)
+ private void AddAmmoToInventory<T>(T weaponType, int ammoAmount)
 }
