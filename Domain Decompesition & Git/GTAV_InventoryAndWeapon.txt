@@ -1,4 +1,9 @@
-@startuml
+Inventory <|-- WeaponWheel
+Consumable<|-- Armor
+Consumable <|-- Snaks
+IIsPickupAble <|- Consumable
+IIsPickupAble <|- PickupableWeapon
+
 RangedWeapon <|-- Weapon_SMG
 Throwables <|-- Weapon_Grenade
 MeleeWeapon <|-- Weapon_Baseballbat
@@ -6,6 +11,53 @@ Weapon <|-- RangedWeapon
 Weapon <|-- MeleeWeapon
 Weapon <|-- Throwables
 IEquipable <|- Weapon
+
+Interface IIsPickupAble
+{
+  Private void AddToAmount()
+}
+
+Class Consumable
+{
+  Public int amount
+}
+
+Class Inventory
+{
+  List<Weapon> allWeaponsInInventory
+  List<Consumables> allConsumablesInInventory
+} 
+
+Class Armor
+{
+  Private Int armorAmount
+  Private float armorIncrease
+  Private void UseArmor()
+}
+
+Class Snaks
+{
+  Private Int snakAmount
+  Private float snakIncrease
+  Private void UseSnack()
+}
+
+
+Class WeaponWheel
+{
+  Private Sprite currentWeapon
+  Private String weaponName
+  Private String attachments
+  Private Bool hasParachute
+  Private List<Weapon> selectedWeapon
+  selectedWeapon.Equip()
+}
+
+Class UI
+{
+  Private Bool isOpen
+  
+}
 
 interface IEquipable
 {
@@ -84,5 +136,3 @@ class PickupableWeapon
 {
  private void AddWeaponToInventory<T>(T weaponToAdd)
 }
-
-@enduml
