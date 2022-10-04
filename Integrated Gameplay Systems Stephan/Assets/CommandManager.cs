@@ -60,8 +60,6 @@ public static class CommandManager
 
 	static CommandManager()
 	{
-		GameObject.FindGameObjectWithTag("Tag").
-
 		availableCommands = new Dictionary<Type, Command>
 		{
 			{ typeof(Command_AddIngredient), new Command_AddIngredient() },
