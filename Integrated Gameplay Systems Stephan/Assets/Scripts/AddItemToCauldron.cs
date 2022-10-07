@@ -7,6 +7,7 @@ public class AddItemToCauldron : Decorator
     protected readonly List<string> addedItems = new List<string>();
     public AddItemToCauldron(RecipeItem _recipeItem) : base(_recipeItem)
     {
+
     }
 
     // Constructor
