@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,44 +7,105 @@ public class RecipeBook
 {
 	public class Recipe 
 	{
-		public Recipe(string[] ingredients) 
+		public string potionName;
+		public string[] ingredients;
+
+		public Recipe(string potionName, params string[] ingredients)
 		{
-			
+			this.ingredients = ingredients;
+			this.potionName = potionName;
 		}
 	}
-	Dictionary<string, Decorator> allIngredients = new Dictionary<string, Decorator>();
 
-	//add list with all possible recipes
-	List<Recipe> allRecipes = new List<Recipe>();
+	private Dictionary<string, Ingredient> allIngredients = new Dictionary<string, Ingredient>();
 
-	//add list with all discovered recipes
+	private Recipe[] allRecipes;
+	private List<Recipe> discoveredRecipes = new List<Recipe>();
+	private const string DISCOVERED_RECIPE_KEY = "disc_res_key";
+	private const int MAX_INGREDIENT_COUNT = 4;
 
-
-	public RecipeBook(Recipe[] recipes)
+	public RecipeBook()
 	{
-		FillBook();
-		//retrieve discovered recipe list from Serialization Manager
-		//List = SerializationManager.Get 
+		FillIngredientsDictionary();
+		FillRecipesArray();
 	}
 
-	private void FillBook()
+	public void Init()
 	{
-		GenericDecorator apple = new GenericDecorator("Apple");
-		GenericDecorator berry = new GenericDecorator("Berry");
-		GenericDecorator water = new GenericDecorator("Water");
-		CombustableDecorator heartOfAVirgin = new CombustableDecorator("Heart of a virgin");
-		CombustableDecorator gunPowder = new CombustableDecorator("Gunpowder");
+		//if (SerializationManager.Has(DISCOVERED_RECIPE_KEY))
+		//	discoveredRecipes = SerializationManager.Get<List<Recipe>>(DISCOVERED_RECIPE_KEY);
+		//else
+		//	discoveredRecipes = new List<Recipe>();
 
-		allIngredients.Add("Apple", apple);
-		allIngredients.Add("Berry", berry);
-		allIngredients.Add("Water", water);
-		allIngredients.Add("Heart of a virgin", heartOfAVirgin);
-		allIngredients.Add("Gunpowder", gunPowder);
+
+		//SerializationManager.Set(DISCOVERED_RECIPE_KEY, discoveredRecipes);
 	}
 
-	public bool IsRecipe(/* List with all the recipe items currently in the cauldron*/)
+	private void FillIngredientsDictionary()
 	{
-		return true;
+		allIngredients = new Dictionary<string, Ingredient>()
+		{
+			{"Stir", new GenericIngredient("Stir") },
+			{"Heat", new GenericIngredient("Heat") },
+			{"Apple", new GenericIngredient("Apple") },
+			{"Berry", new GenericIngredient("Berry") },
+			{"Water", new GenericIngredient("Water") },
+			{"Rum", new GenericIngredient("Rum") },
+			{"Rose Petal", new GenericIngredient("Rose Petal")},
+			{"Leaf of the Elder Tree", new GenericIngredient("Leaf of the Elder Tree") },
+			{"Gunpowder", new CombustableIngrdient("Gunpowder") },
+			{"Heart of a Virgin", new GenericIngredient("Heart of a Virgin") },
+		};
 	}
 
+	private void FillRecipesArray()
+	{
+		allRecipes = new Recipe[]
+		{
+			new Recipe("Appelsap", "Apple", "Water"),
+			new Recipe("Healing potion", "Water", "Berry", "Leaf of the Elder Tree"),
+			new Recipe("Poison", "Rum", "Rum", "Rum", "Rum"),
+			new Recipe("Explosive Poison", "Rum", "Rum", "Rum", "Gunpowder"),
+			new Recipe("Love potion", "Water", "Rose Petal", "Heart of a Virgin", "Stir"),
+			new Recipe("Water Vapor", "Water", "Heat")
+		};
+	}
+
+	public bool IsRecipe(List<Ingredient> currentIngredients, out string potionName)
+	{
+		for (int i = 0; i < allRecipes.Length; i++)
+		{
+			if (currentIngredients.Count == allRecipes[i].ingredients.Length)
+			{
+				bool found = true;
+
+				for (int j = 0; j < currentIngredients.Count; j++)
+				{
+					if (currentIngredients[j].IngredientName != allRecipes[i].ingredients[j])
+					{
+						found = false;
+					}
+				}
+
+				if (found)
+				{
+					potionName = allRecipes[i].potionName;
+					return true;
+				}
+			}
+		}
+
+		potionName = "";
+		return false;
+	}
+
+	public bool ShouldFail(int ingredientCount)
+	{
+		return ingredientCount >= MAX_INGREDIENT_COUNT;
+	}
+
+	public Ingredient GetIngredient(string ingredientName)
+	{
+		return allIngredients[ingredientName];
+	}
 }

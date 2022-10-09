@@ -18,6 +18,11 @@ public class MonoBehaviourEventReciever : MonoBehaviour
 		CommandManager.ExecuteCommand(type);
 	}
 
+	public void AddIngredientCommand(string ingredientName)
+	{
+		CommandManager.ExecuteCommand<Command_AddIngredient>(ingredientName);
+	}
+
 	public void UI_Event_Undo()
 	{
 		CommandManager.UndoLastCommand();

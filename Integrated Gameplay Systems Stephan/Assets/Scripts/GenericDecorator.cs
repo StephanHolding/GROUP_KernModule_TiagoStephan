@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GenericDecorator : Decorator
+public class GenericIngredient : Ingredient
 {
-    public GenericDecorator(string _name) : base( _name){}
+    public GenericIngredient(string _name) : base( _name){}
 
 }

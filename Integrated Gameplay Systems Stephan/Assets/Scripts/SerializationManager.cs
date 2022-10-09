@@ -10,12 +10,16 @@ public static class SerializationManager
 	private static Dictionary<string, object> objectsToSave;
 
 	private static string FullPath { get { return Path.Combine(path, fileName + extension); } }
-	private static readonly string path = Application.persistentDataPath;
-	private static readonly string fileName = "GameSave";
-	private static readonly string extension = ".sav";
+	private static readonly string path;
+	private static readonly string fileName;
+	private static readonly string extension;
 
 	static SerializationManager()
 	{
+		path = Application.persistentDataPath;
+		fileName = "GameSave";
+		extension = ".sav";
+
 		Application.quitting += Application_quitting;
 
 		if (!FileIsPresent())
@@ -45,9 +49,14 @@ public static class SerializationManager
 		}
 		else
 		{
-			Debug.LogError("Object of type " + typeof(T) + " with key: " + _key + " was not found.");
+			Debug.LogWarning("Object of type " + typeof(T) + " with key: " + _key + " was not found.");
 			return default;
 		}
+	}
+
+	public static bool Has(string _key)
+	{
+		return objectsToSave.ContainsKey(_key);
 	}
 
 	public static void Save()

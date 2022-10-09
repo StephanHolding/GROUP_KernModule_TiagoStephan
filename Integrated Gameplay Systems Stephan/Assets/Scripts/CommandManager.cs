@@ -14,7 +14,7 @@ public abstract class Command
 
 	protected Cauldron cauldronInstance;
 
-	public abstract void Exectute();
+	public abstract void Exectute(params object[] args);
 	public abstract void Undo();
 }
 
@@ -25,27 +25,9 @@ public class Command_AddIngredient : Command
 
 	}
 
-	public override void Exectute()
+	public override void Exectute(params object[] args)
 	{
-		//add ingredient to cauldron
-	}
-
-	public override void Undo()
-	{
-		throw new NotImplementedException();
-	}
-}
-
-public class Command_Stir : Command
-{
-	public Command_Stir(Cauldron _cauldron) : base(_cauldron)
-	{
-
-	}
-
-	public override void Exectute()
-	{
-		//stir the cauldron
+		cauldronInstance.AddDecorator(args[0] as string);
 	}
 
 	public override void Undo()
@@ -61,27 +43,9 @@ public class Command_Test : Command
 
 	}
 
-	public override void Exectute()
+	public override void Exectute(params object[] args)
 	{
 		Debug.Log("works!");
-	}
-
-	public override void Undo()
-	{
-		throw new NotImplementedException();
-	}
-}
-
-public class Command_Heat : Command
-{
-	public Command_Heat(Cauldron _cauldron) : base(_cauldron)
-	{
-
-	}
-
-	public override void Exectute()
-	{
-		//heat the cauldron up
 	}
 
 	public override void Undo()
@@ -106,21 +70,19 @@ public static class CommandManager
 		availableCommands = new Dictionary<Type, Command>
 		{
 			{ typeof(Command_AddIngredient), new Command_AddIngredient(cauldron) },
-			{ typeof(Command_Heat), new Command_Heat(cauldron) },
-			{ typeof(Command_Stir), new Command_Stir(cauldron) },
 			{ typeof(Command_Test), new Command_Test(cauldron) },
 		};
 	}
 
-	public static void ExecuteCommand<T>() where T : Command
+	public static void ExecuteCommand<T>(params object[] args) where T : Command
 	{
-		ExecuteCommand(typeof(T));
+		ExecuteCommand(typeof(T), args);
 	}
 
-	public static void ExecuteCommand(Type _type)
+	public static void ExecuteCommand(Type _type, params object[] args)
 	{
 		Command toExecute = availableCommands[_type];
-		toExecute.Exectute();
+		toExecute.Exectute(args);
 		executedCommands.Push(toExecute);
 	}
 

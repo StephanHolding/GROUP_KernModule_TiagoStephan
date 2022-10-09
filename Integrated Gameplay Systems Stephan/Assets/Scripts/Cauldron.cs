@@ -1,19 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Cauldron : Base
 {
-	Stack<RecipeItem> recipeItems = new Stack<RecipeItem>();
-	public void AddDecorator(RecipeItem recipeItem)
+
+	private RecipeBook recipeBook;
+	private Queue<Ingredient> currentIngredients = new Queue<Ingredient>();
+	private const string CURRENT_INGREDIENTS_KEY = "curr_ing_key";
+
+	public Cauldron()
 	{
-		//add ingredient decorator to decorator list
-		//ask recipe book if current decorator list equals a potion or not
+		recipeBook = new RecipeBook();
 	}
 
-	public void RemoveDecorator(/* the decorator that should be removed*/)
+	public override void Awake()
 	{
-		//remove a decorator from the list.
+
+		//if (SerializationManager.Has(CURRENT_INGREDIENTS_KEY))
+		//	currentIngredients = SerializationManager.Get<Stack<Ingredient>>(CURRENT_INGREDIENTS_KEY);
+		//else
+		//	currentIngredients = new Stack<Ingredient>();
+
+		//foreach(Ingredient ingredient in currentIngredients)
+		//{
+		//	Debug.Log(ingredient.IngredientName);
+		//}
+
+		//SerializationManager.Set(CURRENT_INGREDIENTS_KEY, currentIngredients);
+		recipeBook.Init();
+	}
+
+	public void AddDecorator(string ingredientName)
+	{
+		currentIngredients.Enqueue(recipeBook.GetIngredient(ingredientName));
+
+		if (recipeBook.IsRecipe(currentIngredients.ToList(), out string potionName))
+		{
+			Logger.Log("Wajo we hebben " + potionName + " gemaakt");
+			currentIngredients.Clear();
+		}
+		else
+		{
+			if (recipeBook.ShouldFail(currentIngredients.Count))
+			{
+				Logger.Log("Ah kanker");
+			}
+		}
+	}
+
+	public void RemoveLastDecorator()
+	{
+		currentIngredients.Dequeue();
 	}
 
 }

@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombustableDecorator : Decorator
+public class CombustableIngrdient : Ingredient
 {
-    public CombustableDecorator(string _name) : base( _name){}
+    public CombustableIngrdient(string _name) : base( _name){}
 
 }
