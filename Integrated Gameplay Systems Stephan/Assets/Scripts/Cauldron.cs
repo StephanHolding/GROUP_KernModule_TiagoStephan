@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Cauldron : Base
 {
-
-	public void AddDecorator(/*the decorator that should be added*/)
+	Stack<RecipeItem> recipeItems = new Stack<RecipeItem>();
+	public void AddDecorator(RecipeItem recipeItem)
 	{
 		//add ingredient decorator to decorator list
 		//ask recipe book if current decorator list equals a potion or not

@@ -4,14 +4,9 @@ using UnityEngine;
 
 public abstract class Decorator : RecipeItem
 {
-    protected RecipeItem recipeItem;
     // Constructor
-    public Decorator(RecipeItem _recipeItem)
+    public Decorator(string _name)
     {
-        recipeItem = _recipeItem;
-    }
-    public override void Display()
-    {
-        recipeItem.Display();
+        name = _name;
     }
 }
