@@ -104,6 +104,19 @@ public class RecipeBook
 		return ingredientCount >= MAX_INGREDIENT_COUNT;
 	}
 
+	public string GetFailEffect(List<Ingredient> ingredients)
+	{
+		for (int i = 0; i < ingredients.Count; i++)
+		{
+			if (ingredients[i].GetType() == typeof(CombustableIngrdient))
+			{
+				return "Kaboom";
+			}
+		}
+
+		return "Potion creation failed.";
+	}
+
 	public Ingredient GetIngredient(string ingredientName)
 	{
 		return allIngredients[ingredientName];

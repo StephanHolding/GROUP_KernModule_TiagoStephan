@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MonoBehaviourEventReciever : MonoBehaviour
 {
@@ -11,26 +12,40 @@ public class MonoBehaviourEventReciever : MonoBehaviour
 		new Cauldron()
 	};
 
+	private CommandManager commandManagerInstance;
+
 
 	public void UI_Event(string typeAsString)
 	{
 		Type type = Type.GetType(typeAsString);
-		CommandManager.ExecuteCommand(type);
+		commandManagerInstance.ExecuteCommand(type);
 	}
 
 	public void AddIngredientCommand(string ingredientName)
 	{
-		CommandManager.ExecuteCommand<Command_AddIngredient>(ingredientName);
+		commandManagerInstance.ExecuteCommand<Command_AddIngredient>(ingredientName);
 	}
 
 	public void UI_Event_Undo()
 	{
-		CommandManager.UndoLastCommand();
+		commandManagerInstance.UndoLastCommand();
+	}
+
+	public void QuitApplication()
+	{
+		Application.Quit();
+	}
+
+	public void ReloadScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
 	private void Awake()
 	{
-		CommandManager.Init(FindClassInstance<Cauldron>());
+		Logger.Init();
+
+		commandManagerInstance = new CommandManager(FindClassInstance<Cauldron>());
 
 		foreach (Base cls in classes)
 		{

@@ -7,7 +7,7 @@ public class Cauldron : Base
 {
 
 	private RecipeBook recipeBook;
-	private Queue<Ingredient> currentIngredients = new Queue<Ingredient>();
+	private List<Ingredient> currentIngredients = new List<Ingredient>();
 	private const string CURRENT_INGREDIENTS_KEY = "curr_ing_key";
 
 	public Cauldron()
@@ -34,25 +34,28 @@ public class Cauldron : Base
 
 	public void AddDecorator(string ingredientName)
 	{
-		currentIngredients.Enqueue(recipeBook.GetIngredient(ingredientName));
+		currentIngredients.Add(recipeBook.GetIngredient(ingredientName));
 
-		if (recipeBook.IsRecipe(currentIngredients.ToList(), out string potionName))
+		Logger.Log("Added " + ingredientName);
+
+		if (recipeBook.IsRecipe(currentIngredients, out string potionName))
 		{
-			Logger.Log("Wajo we hebben " + potionName + " gemaakt");
+			Logger.Log("Created " + potionName);
 			currentIngredients.Clear();
 		}
 		else
 		{
 			if (recipeBook.ShouldFail(currentIngredients.Count))
 			{
-				Logger.Log("Ah kanker");
+				Logger.Log(recipeBook.GetFailEffect(currentIngredients));
 			}
 		}
 	}
 
 	public void RemoveLastDecorator()
 	{
-		currentIngredients.Dequeue();
+		currentIngredients.RemoveAt(currentIngredients.Count - 1);
+		Logger.Log("Removed last ingredient");
 	}
 
 }

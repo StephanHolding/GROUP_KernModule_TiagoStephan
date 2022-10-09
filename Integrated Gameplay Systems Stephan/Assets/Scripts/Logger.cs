@@ -8,7 +8,7 @@ public static class Logger
 
 	private static TextMeshProUGUI uiText;
 
-	static Logger()
+	public static void Init()
 	{
 		GameObject textObject = GameObject.Find("Logger Text");
 		uiText = textObject.GetComponent<TextMeshProUGUI>();

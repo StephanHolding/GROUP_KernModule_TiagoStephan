@@ -32,7 +32,7 @@ public class Command_AddIngredient : Command
 
 	public override void Undo()
 	{
-		throw new NotImplementedException();
+		cauldronInstance.RemoveLastDecorator();
 	}
 }
 
@@ -56,16 +56,17 @@ public class Command_Test : Command
 
 #endregion
 
-public static class CommandManager
+public class CommandManager
 {
 
-	private static Stack<Command> executedCommands = new Stack<Command>();
-	private static Dictionary<Type, Command> availableCommands;
-	private static Cauldron cauldron;
+	private Stack<Command> executedCommands = new Stack<Command>();
+	private Dictionary<Type, Command> availableCommands;
+	private Cauldron cauldron;
 
-	public static void Init(Cauldron _cauldron)
+	public CommandManager(Cauldron _cauldron)
 	{
 		cauldron = _cauldron;
+		executedCommands.Clear();
 
 		availableCommands = new Dictionary<Type, Command>
 		{
@@ -74,19 +75,19 @@ public static class CommandManager
 		};
 	}
 
-	public static void ExecuteCommand<T>(params object[] args) where T : Command
+	public void ExecuteCommand<T>(params object[] args) where T : Command
 	{
 		ExecuteCommand(typeof(T), args);
 	}
 
-	public static void ExecuteCommand(Type _type, params object[] args)
+	public void ExecuteCommand(Type _type, params object[] args)
 	{
 		Command toExecute = availableCommands[_type];
 		toExecute.Exectute(args);
 		executedCommands.Push(toExecute);
 	}
 
-	public static void UndoLastCommand()
+	public void UndoLastCommand()
 	{
 		Command toUndo = executedCommands.Pop();
 		toUndo.Undo();
