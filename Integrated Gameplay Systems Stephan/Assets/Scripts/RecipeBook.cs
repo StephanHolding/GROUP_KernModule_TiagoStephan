@@ -32,13 +32,12 @@ public class RecipeBook
 
 	public void Init()
 	{
-		//if (SerializationManager.Has(DISCOVERED_RECIPE_KEY))
-		//	discoveredRecipes = SerializationManager.Get<List<Recipe>>(DISCOVERED_RECIPE_KEY);
-		//else
-		//	discoveredRecipes = new List<Recipe>();
+		if (SerializationManager.Has(DISCOVERED_RECIPE_KEY))
+			discoveredRecipes = SerializationManager.Get<List<Recipe>>(DISCOVERED_RECIPE_KEY);
+		else
+			discoveredRecipes = new List<Recipe>();
 
-
-		//SerializationManager.Set(DISCOVERED_RECIPE_KEY, discoveredRecipes);
+		SerializationManager.Set(DISCOVERED_RECIPE_KEY, discoveredRecipes);
 	}
 
 	private void FillIngredientsDictionary()
@@ -90,6 +89,8 @@ public class RecipeBook
 				if (found)
 				{
 					potionName = allRecipes[i].potionName;
+					discoveredRecipes.Add(allRecipes[i]);
+					Logger.UpdateRecipes(" "+ potionName);
 					return true;
 				}
 			}
