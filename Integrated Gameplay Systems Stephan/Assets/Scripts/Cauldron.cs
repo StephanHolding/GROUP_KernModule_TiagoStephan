@@ -58,4 +58,9 @@ public class Cauldron : Base
 		Logger.Log("Removed last ingredient");
 	}
 
+	public void ClearCurrentIngredients()
+	{
+		currentIngredients.Clear();
+	}
+
 }

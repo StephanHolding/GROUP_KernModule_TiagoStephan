@@ -36,9 +36,10 @@ public class MonoBehaviourEventReciever : MonoBehaviour
 		Application.Quit();
 	}
 
-	public void ReloadScene()
+	public void Retry()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		FindClassInstance<Cauldron>().ClearCurrentIngredients();
+		Logger.Log("");
 	}
 
 	private void Awake()

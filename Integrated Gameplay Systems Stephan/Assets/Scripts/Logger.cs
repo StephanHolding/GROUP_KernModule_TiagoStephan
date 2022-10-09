@@ -21,9 +21,16 @@ public static class Logger
 	{
 		logText.text = message;
 	}
-	public static void UpdateRecipes(string message) 
+	public static void UpdateRecipes(List<string> discoveredRecipes) 
 	{
-		recipeText.text += message;
+		string allRecipesText = "You have created these potions:";
+
+		foreach (string discoveredRecipe in discoveredRecipes)
+		{
+			allRecipesText += " " + discoveredRecipe;
+		}
+
+		recipeText.text = allRecipesText;
 	}
 
 }

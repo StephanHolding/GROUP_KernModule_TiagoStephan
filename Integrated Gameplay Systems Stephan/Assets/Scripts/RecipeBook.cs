@@ -20,7 +20,7 @@ public class RecipeBook
 	private Dictionary<string, Ingredient> allIngredients = new Dictionary<string, Ingredient>();
 
 	private Recipe[] allRecipes;
-	private List<Recipe> discoveredRecipes = new List<Recipe>();
+	private List<string> discoveredRecipes = new List<string>();
 	private const string DISCOVERED_RECIPE_KEY = "disc_res_key";
 	private const int MAX_INGREDIENT_COUNT = 4;
 
@@ -32,12 +32,12 @@ public class RecipeBook
 
 	public void Init()
 	{
-		if (SerializationManager.Has(DISCOVERED_RECIPE_KEY))
-			discoveredRecipes = SerializationManager.Get<List<Recipe>>(DISCOVERED_RECIPE_KEY);
-		else
-			discoveredRecipes = new List<Recipe>();
+		//if (SerializationManager.Has(DISCOVERED_RECIPE_KEY))
+		//	discoveredRecipes = SerializationManager.Get<List<string>>(DISCOVERED_RECIPE_KEY);
+		//else
+		//	discoveredRecipes = new List<string>();
 
-		SerializationManager.Set(DISCOVERED_RECIPE_KEY, discoveredRecipes);
+		//SerializationManager.Set(DISCOVERED_RECIPE_KEY, discoveredRecipes);
 	}
 
 	private void FillIngredientsDictionary()
@@ -89,8 +89,13 @@ public class RecipeBook
 				if (found)
 				{
 					potionName = allRecipes[i].potionName;
-					discoveredRecipes.Add(allRecipes[i]);
-					Logger.UpdateRecipes(" "+ potionName);
+
+					if (!discoveredRecipes.Contains(potionName))
+					{
+						discoveredRecipes.Add(potionName);
+						Logger.UpdateRecipes(discoveredRecipes);
+					}
+
 					return true;
 				}
 			}
